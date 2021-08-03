@@ -1,43 +1,50 @@
-// install puppeteer for scraping
-const puppeteer = require('puppeteer');
-const month = '09';
-const year = '2021';
+// Créer server, utiliser port 3000, utiliser app comment fichier d'entrée
+const http = require('http');
+const app = require ('./app.js');
 
-// function to scraping the site of movies
-(async () => {
-    const browser = await puppeteer.launch({ headless: true});
-    const page = await browser.newPage();
-    await page.goto(`https://www.imdb.com/movies-coming-soon/${year}-${month}`);
-    const movies = await page.evaluate( () => {
-        let movies = [];
-        // select the elements in the list of movies in this website => we will choose the class, span ... follow in this site
-        let elements = document.querySelectorAll('div.list_item');
-        for (element of elements) {
-            // take the infos of stars 
-            let stars = [];
-            for ( let i = 0; i < element.querySelectorAll('td.overview-top>div:nth-child(6) a').length; i++) {
-                stars.push(element.querySelectorAll('td.overview-top>div:nth-child(6) a')[i]?.textContent);
-            };
+const normalizePort = val => {
+    const port = parseInt(val, 10);
+  
+    if (isNaN(port)) {
+      return val;
+    }
+    if (port >= 0) {
+      return port;
+    }
+    return false;
+  };
+  const port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
+  
+  const errorHandler = error => {
+    if (error.syscall !== 'listen') {
+      throw error;
+    }
+    const address = server.address();
+    const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
+    switch (error.code) {
+      case 'EACCES':
+        console.error(bind + ' requires elevated privileges.');
+        process.exit(1);
+        break;
+      case 'EADDRINUSE':
+        console.error(bind + ' is already in use.');
+        process.exit(1);
+        break;
+      default:
+        throw error;
+    }
+  };
+  
+  const server = http.createServer(app);
+  
+  server.on('listening', () => {
+    const address = server.address();
+    const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+    console.log('Listening on ' + bind);
+  })
+  // .catch((error) => console.log(error));
+server.on('error', errorHandler);
 
-            // info of genres of movies in the span 
-            let genres = [];
-            for ( let i = 0 ; i< element.querySelectorAll('p.cert-runtime-genre span').length; i++) {
-                genres.push(element.querySelectorAll('p.cert-runtime-genre span')[i]?.textContent);
-            }
-            // push all the info in list of movies
-            movies.push({
-                img: element.querySelector('img')?.src,
-                title: element.querySelector('td.overview-top a')?.textContent.trim(),
-                description : element.querySelector('.outline')?.textContent.trim(),
-                time: element.querySelector('time')?.textContent.trim(),
-                directeur: element.querySelector('div.txt-block a')?.textContent,
-                stars: stars,
-                genres: genres,
-            });
+server.listen(port);
 
-        }
-        return movies
-    })
-    console.log(movies);
-    await browser.close()
-})();
