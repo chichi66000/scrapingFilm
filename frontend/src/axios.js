@@ -1,10 +1,11 @@
 import axios from "axios"
 
-axios.create({
-    baseURL: "http://localhost:8080",
+const axiosInstance = axios.create({
+    baseURL: "http://localhost:3000",
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'X-Requested-With': 'XMLHttpRequest'
     }
 })
+export default axiosInstance

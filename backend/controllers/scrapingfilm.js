@@ -2,14 +2,15 @@
 const puppeteer = require('puppeteer');
 
 exports.scrapingfilm = async (req, res) => {
-const month = '09';
-const year = '2021';
+    let date = req.body.dateChoosen
+    console.log("date " + date);
+    console.log(req.params.dateChoosen);
 
 // function to scraping the site of movies
 
     const browser = await puppeteer.launch({ headless: true});
     const page = await browser.newPage();
-    await page.goto(`https://www.imdb.com/movies-coming-soon/${year}-${month}`);
+    await page.goto(`https://www.imdb.com/movies-coming-soon/${date}`);
     const movies = await page.evaluate( () => {
         let movies = [];
         // select the elements in the list of movies in this website => we will choose the class, span ... follow in this site
@@ -40,6 +41,8 @@ const year = '2021';
         }
         return movies
     })
+    res.send({movies}) 
+
     console.log(movies);
     await browser.close()
 
