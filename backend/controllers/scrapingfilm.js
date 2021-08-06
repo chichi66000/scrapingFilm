@@ -2,9 +2,8 @@
 const puppeteer = require('puppeteer');
 
 exports.scrapingfilm = async (req, res) => {
-    let date = req.body.dateChoosen
+    let date = req.params.dateChoosen
     console.log("date " + date);
-    console.log(req.params.dateChoosen);
 
 // function to scraping the site of movies
 
@@ -25,7 +24,7 @@ exports.scrapingfilm = async (req, res) => {
             // info of genres of movies in the span 
             let genres = [];
             for ( let i = 0 ; i< element.querySelectorAll('p.cert-runtime-genre span').length; i++) {
-                genres.push(element.querySelectorAll('p.cert-runtime-genre span')[i]?.textContent);
+                genres.push(element.querySelectorAll('p.cert-runtime-genre span:not(.ghost)')[i]?.textContent);
             }
             // push all the info in list of movies
             movies.push({
@@ -43,7 +42,7 @@ exports.scrapingfilm = async (req, res) => {
     })
     res.send({movies}) 
 
-    console.log(movies);
+    // console.log(movies);
     await browser.close()
 
 }

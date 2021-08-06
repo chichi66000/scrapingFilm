@@ -1,18 +1,18 @@
 <template>
-  <div class="movies container">
+  <div class="movies container mx-auto">
     <!-- change the month and years -->
-    <div class="flex flex-col items-end p-5 bg-gray-400 mx-auto">
-      <label for="select_date" class="">Select date</label>
+    <div class="flex flex-col mx-auto sm:items-end py-5 px-1 sm:px-5 bg-gray-400 mx-auto">
+      <label for="select_date" class="px-1 sm:px-3 font-bold">Select date</label>
 
-      <div class="flex flex-row ">
-      <button class="" role="button">Prev</button>
+      <div class="flex flex-row px-1 sm:px-3 flex-wrap ">
+      <button class="font-bold" role="button">Prev</button>
         
         <select @click="showdate()" v-model="selectDate" class="select_date" name="select_date">
           <!-- <option disabled value="">Your date</option> -->
           <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`/movie-coming-soon/${date}`">{{date}}</option>
          
         </select> 
-      <button class="">Next</button>
+      <button class="font-bold">Next</button>
       </div>
 
 
@@ -20,20 +20,30 @@
     </div>
 
     <!-- bloc for the movies -->
-    <div class="">
-      <div class="d-flex justify-between">
-        <img src="" alt="poster film"/>
+    <div v-for="(movie, index) in movies" :key="index" class="">
+      <div class="flex flex-col justify-evenly sm:flex-row border rounded-lg my-5 p-1 mx-1 sm:p-5  ">
+        <div class="w-40 sm:w-72 p-1 mx-auto sm:mx-3">
+          <img :src="`${movie.img}`" alt="poster film" class=" mx-auto object-contain"/>
+        </div>
+        
 
-        <div class="">
-          <h2 class="">Titre</h2>
-          <time datetime="90m">90mn</time>
-          <p>
-            <span>Animation</span>
-            <span>Drama</span>
-            <span>Thriller</span>
+        <div class="flex flex-col p-1 sm:p-5 mx-auto flex-wrap w-full sm:w-3/4 md:1/2">
+          <h2 class="font-bold text-lg text-red-400 mx-auto px-1 sm: px-5" >{{movie.title}}</h2>
 
+          <div class="flex justify-between flex-wrap">
+            <time v-if="movie.time" :datetime="`${movie.time}`" class="px-1 sm:px-3">{{movie.time}}</time>
+            <p v-for="(genre, idx) in movie.genres" :key="`genre_${idx}`" class="font-bold px-1 sm:px-3">
+              <span class="px-1 sm:px-3">{{genre}}</span>
+            </p>
+          </div>
+          
+          <p class="px-1 mx-auto">{{movie.description}}</p>
+
+          <p><span class="font-bold">Directeur:</span> {{movie.directeur}}</p>
+          <p >
+            <span class="font-bold">Stars:</span>
+            <span v-for="(star, i) in movie.stars" :key="`star_${i}`" class="px-1 sm:px-3 ">{{star}}</span>
           </p>
-
         </div>
 
       </div>
@@ -55,13 +65,15 @@ export default {
       year: '',
       nextyear: '',
       dateArray: [],
-      selectDate: ""
+      selectDate: "",
+      movies: []
     }
     
   },
 
   created(){
     this.showdate();
+    this.chooseDate (0)
     this.selectDate = this.dateArray[0]
   },
 
@@ -97,9 +109,11 @@ export default {
       let dateChoosen = this.dateArray[index];
       // console.log("date choosen " + dateChoosen);    OK
 
-      await axios.post(`/api/films`, {dateChoosen: dateChoosen})
+      await axios.get(`/api/films/${dateChoosen}`)
       .then( (response) => {
-        console.log(response);
+        // console.log(response);       OK
+        this.movies = response.data.movies;
+        // console.log(this.movies);    OK
       })
     }
   },

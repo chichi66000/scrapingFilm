@@ -2,6 +2,6 @@ const express = require('express');
 const router = express.Router();
 const filmCtrl = require('../controllers/scrapingfilm')
 
-router.post('/', filmCtrl.scrapingfilm)
+router.get('/:dateChoosen', filmCtrl.scrapingfilm)
 
 module.exports = router;
