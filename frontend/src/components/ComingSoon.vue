@@ -5,14 +5,15 @@
       <label for="select_date" class="px-1 sm:px-3 font-bold">Select date</label>
 
       <div class="flex flex-row px-1 sm:px-3 flex-wrap ">
-      <button class="font-bold" role="button">Prev</button>
+      <button @click="prev()" class="font-bold" role="button">Prev</button>
         
-        <select @click="showdate()" v-model="selectDate" class="select_date" name="select_date">
+      <select @click="showdate()" v-model="selectDate" class="select_date" name="select_date">
           <!-- <option disabled value="">Your date</option> -->
           <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`/movie-coming-soon/${date}`">{{date}}</option>
          
-        </select> 
-      <button class="font-bold">Next</button>
+      </select> 
+
+      <button @click="next()" class="font-bold">Next</button>
       </div>
 
 
@@ -65,16 +66,23 @@ export default {
       year: '',
       nextyear: '',
       dateArray: [],
-      selectDate: "",
-      movies: []
+      selectDate: '2566',
+      movies: [],
+      dateChoosen: '',
     }
     
   },
+  // beforeCreated () {
+  //   this.showdate();
+  //   this.chooseDate (0)
+  //   this.selectDate = this.dateArray[0]
 
+  // },
   created(){
     this.showdate();
-    this.chooseDate (0)
+    this.chooseDate (0);
     this.selectDate = this.dateArray[0]
+
   },
 
   methods: {
@@ -106,15 +114,34 @@ export default {
 
     // get the value of the month selected
     async chooseDate (index) {
-      let dateChoosen = this.dateArray[index];
-      // console.log("date choosen " + dateChoosen);    OK
+      this.dateChoosen = this.dateArray[index];
+      // console.log("date choosen " + this.dateChoosen); =>OK  
 
-      await axios.get(`/api/films/${dateChoosen}`)
+      await axios.get(`/api/films/${this.dateChoosen}`)
       .then( (response) => {
         // console.log(response);       OK
         this.movies = response.data.movies;
         // console.log(this.movies);    OK
       })
+    },
+
+    // back to the prev mpnth
+    prev () {
+    
+      let prevMonth = moment(this.dateChoosen).subtract(1, "months").format("YYYY-MM");
+      // console.log("now " + this.dateChoosen);
+      // console.log("prev " + prevMonth);
+      let index = this.dateArray.indexOf(prevMonth);
+      console.log(index);
+      this.chooseDate(index);
+      this.selectDate = this.dateArray[index]
+
+
+    },
+
+    // go to the next mpnth
+    next () {
+
     }
   },
   

@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 // parse requests of content-type - application/json
-// app.use(cors({origin: 'http://localhost:8080'}, {credentials: true}));
+app.use(cors({origin: 'http://localhost:8080'}, {credentials: true}));
 
 app.use(helmet());
 app.use(limiter);
