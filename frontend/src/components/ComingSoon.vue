@@ -9,7 +9,7 @@
         
       <select @click="showdate()" v-model="selectDate" class="select_date" name="select_date">
           <!-- <option disabled value="">Your date</option> -->
-          <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`/movie-coming-soon/${date}`">{{date}}</option>
+          <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`/movie-coming-soon/${date}`" >{{date}}</option>
          
       </select> 
 
@@ -66,7 +66,7 @@ export default {
       year: '',
       nextyear: '',
       dateArray: [],
-      selectDate: '2566',
+      selectDate: '',
       movies: [],
       dateChoosen: '',
     }
@@ -81,7 +81,7 @@ export default {
   created(){
     this.showdate();
     this.chooseDate (0);
-    this.selectDate = this.dateArray[0]
+    this.selectDate = "blala"
 
   },
 
@@ -141,7 +141,12 @@ export default {
 
     // go to the next mpnth
     next () {
-
+      let nextMonth = moment(this.dateChoosen).add(1, "months").format("YYYY-MM");
+      console.log("now " + this.dateChoosen);
+      console.log("next " + nextMonth);
+      let index = this.dateArray.indexOf(nextMonth);
+      console.log(index);
+      this.chooseDate(index);
     }
   },
   
