@@ -7,9 +7,9 @@
       <div class="flex flex-row px-1 sm:px-3 flex-wrap ">
       <button @click="prev()" class="font-bold" role="button">Prev</button>
         
-      <select @click="showdate()" v-model="selectDate" class="select_date" name="select_date">
+      <select @click="showdate()" v-model="selectDate" class="select_date" name="selectDate">
           <!-- <option disabled value="">Your date</option> -->
-          <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`/movie-coming-soon/${date}`" >{{date}}</option>
+          <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`${date}`" :selected="`index==0`" >{{date}}</option>
          
       </select> 
 
@@ -63,40 +63,33 @@ export default {
   data () {
     return {
       month: '',
-      year: '',
+      year:'',
       nextyear: '',
       dateArray: [],
-      selectDate: '',
       movies: [],
       dateChoosen: '',
+      selectDate: 'year month',
     }
     
   },
-  // beforeCreated () {
-  //   this.showdate();
-  //   this.chooseDate (0)
-  //   this.selectDate = this.dateArray[0]
 
-  // },
   created(){
     this.showdate();
     this.chooseDate (0);
-    this.selectDate = "blala"
-
+    this.selectDate = "08-2023"
   },
 
   methods: {
-    // show the month from nox to next year
+    // show the month from now to next year => OK
     showdate() {
+      // take the value of this month and this year 
       var aujd = new Date();
       this.year = aujd.getFullYear();
 
       this.month = Date.now();
       this.nextyear = moment().add(12, 'months').calendar();
       
-      // console.log(this.month);
-      // console.log(this.nextyear);
-
+      // the function to calculate 12 months from 1 date in using momentjs
       function getDates(startDate, stopDate) {
         let dateOption = []
         var currentDate = moment(startDate);
@@ -107,46 +100,61 @@ export default {
         }
         return dateOption;
       }
+      // call this function to get the months from now to next year and stock in dateArray
       this.dateArray = getDates(this.month, this.nextyear);
-      // console.log(this.dateArray);
-
+      
     },
 
     // get the value of the month selected
     async chooseDate (index) {
       this.dateChoosen = this.dateArray[index];
-      // console.log("date choosen " + this.dateChoosen); =>OK  
-
+      // send to the server to get list of movies
       await axios.get(`/api/films/${this.dateChoosen}`)
       .then( (response) => {
-        // console.log(response);       OK
+        // stock in list of movies
         this.movies = response.data.movies;
-        // console.log(this.movies);    OK
       })
     },
 
-    // back to the prev mpnth
+    // button back to the prev month
     prev () {
-    
+      // get the month from the dateChoosen-1
       let prevMonth = moment(this.dateChoosen).subtract(1, "months").format("YYYY-MM");
-      // console.log("now " + this.dateChoosen);
-      // console.log("prev " + prevMonth);
+      console.log("prev " + prevMonth);
+      // get the index of this month in the dateArray
       let index = this.dateArray.indexOf(prevMonth);
-      console.log(index);
-      this.chooseDate(index);
-      this.selectDate = this.dateArray[index]
-
-
+      
+      // if index <0 => the films has all coming out already => alert + the film coming in this month
+      if(index < 0) {
+        alert("Please choose a valid month for Film Coming Soon");
+        
+      }
+      // if we've been farther in the futur, we can come back to prev month
+      else {
+        // then call the function chooseDate to get the list of movies
+        this.chooseDate(index);
+        // and show the value of the month choosen
+        this.selectDate = this.dateArray[index];
+      }
     },
 
-    // go to the next mpnth
+    // go to the next month => similar to the prev() function
     next () {
       let nextMonth = moment(this.dateChoosen).add(1, "months").format("YYYY-MM");
-      console.log("now " + this.dateChoosen);
-      console.log("next " + nextMonth);
       let index = this.dateArray.indexOf(nextMonth);
-      console.log(index);
-      this.chooseDate(index);
+      
+      // if the month more than  year => too far to get the film
+      if (index < 0) {
+        alert("Please choose another month; there's no film yet");
+        
+      }
+      else {
+        this.chooseDate(index)
+        // and show the value of the month choosen
+        this.selectDate = this.dateArray[index];
+
+      }
+      
     }
   },
   

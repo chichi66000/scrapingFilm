@@ -8,6 +8,15 @@
   </div>
 </template>
 
+<script>
+const app = new Vue({
+  el: '#app',
+  // fournit le store avec l'option `store`.
+  // cela injectera l'instance du store dans tous les composants enfants.
+  store,
+  
+})
+</script>
 <style lang="css">
 
 </style>
