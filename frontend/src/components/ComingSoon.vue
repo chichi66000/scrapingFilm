@@ -114,6 +114,7 @@ export default {
       .then( (response) => {
         // stock in list of movies
         this.movies = response.data.movies;
+        // change the state of vuex
         this.$store.dispatch('chooseMonth', this.dateChoosen)
       })
     },
@@ -137,6 +138,9 @@ export default {
         this.chooseDate(index);
         // and show the value of the month choosen
         this.selectDate = this.dateArray[index];
+        // change the store of vuex
+        this.$store.dispatch('chooseMonth', this.selectDate)
+
       }
     },
 
@@ -154,7 +158,8 @@ export default {
         this.chooseDate(index)
         // and show the value of the month choosen
         this.selectDate = this.dateArray[index];
-
+        // change the store of vuex
+        this.$store.dispatch('chooseMonth', this.selectDate)
       }
       
     }

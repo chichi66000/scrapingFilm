@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <h1 class="">New Movies
+    <h1 class="font-bold text-3xl mx-auto my-5 text-center">New Movies
       <span>Coming Soon in </span>
-      <span class="font-bold text-lg text-red-400">{{month}}</span>
+      <span class="text-red-400">{{month}}</span>
       
     </h1>
 
