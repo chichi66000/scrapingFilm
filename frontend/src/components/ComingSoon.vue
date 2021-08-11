@@ -8,7 +8,7 @@
       <button @click="prev()" class="font-bold" role="button">Prev</button>
         
       <select @click="showdate()" v-model="selectDate" class="select_date" name="selectDate">
-          <!-- <option disabled value="">Your date</option> -->
+          <option disabled value="default">{{year}} - {{month}}</option>
           <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`${date}`" :selected="`index==0`" >{{date}}</option>
          
       </select> 
@@ -68,7 +68,7 @@ export default {
       dateArray: [],
       movies: [],
       dateChoosen: '',
-      selectDate: 'year month',
+      selectDate: 'default',
     }
     
   },
@@ -76,7 +76,7 @@ export default {
   created(){
     this.showdate();
     this.chooseDate (0);
-    this.selectDate = "08-2023"
+    
   },
 
   methods: {
@@ -86,7 +86,8 @@ export default {
       var aujd = new Date();
       this.year = aujd.getFullYear();
 
-      this.month = Date.now();
+      this.month = aujd.getMonth() + 1;
+      console.log(this.month);
       this.nextyear = moment().add(12, 'months').calendar();
       
       // the function to calculate 12 months from 1 date in using momentjs
@@ -101,7 +102,7 @@ export default {
         return dateOption;
       }
       // call this function to get the months from now to next year and stock in dateArray
-      this.dateArray = getDates(this.month, this.nextyear);
+      this.dateArray = getDates(aujd, this.nextyear);
       
     },
 
