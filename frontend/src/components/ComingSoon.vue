@@ -57,7 +57,7 @@
 <script>
 import axios from '../axios'
 import moment  from "moment"
-
+// import store from '../store/index'
 export default {
   name: 'ComingSoon',
   data () {
@@ -108,11 +108,13 @@ export default {
     // get the value of the month selected
     async chooseDate (index) {
       this.dateChoosen = this.dateArray[index];
+
       // send to the server to get list of movies
       await axios.get(`/api/films/${this.dateChoosen}`)
       .then( (response) => {
         // stock in list of movies
         this.movies = response.data.movies;
+        this.$store.dispatch('chooseMonth', this.dateChoosen)
       })
     },
 
