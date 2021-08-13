@@ -111,7 +111,7 @@ export default {
       this.dateChoosen = this.dateArray[index];
 
       // send to the server to get list of movies
-      await axios.get(`/api/films/${this.dateChoosen}`)
+      await axios.get(`/films/${this.dateChoosen}`)
       .then( (response) => {
         // stock in list of movies
         this.movies = response.data.movies;
