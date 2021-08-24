@@ -7,7 +7,10 @@ exports.scrapingfilm = async (req, res) => {
 
 // function to scraping the site of movies
 
-    const browser = await puppeteer.launch({ headless: true});
+    const browser = await puppeteer.launch({ 
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
     await page.goto(`https://www.imdb.com/movies-coming-soon/${date}`);
     const movies = await page.evaluate( () => {
