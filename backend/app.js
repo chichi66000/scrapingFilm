@@ -26,7 +26,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTION');
     res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader("Content-Security-Policy", "default-src 'none ;img-src m.media-amazon.com imdb.com 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' ; style-src 'self' 'unsafe-eval'; connect-src 'self' m.media-amazon.com imdb.com ");
+    res.setHeader("Content-Security-Policy", "default-src 'none' ;img-src m.media-amazon.com imdb.com 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' ; style-src 'self' 'unsafe-eval'; connect-src 'self' m.media-amazon.com imdb.com ");
     next();
 })
 
@@ -38,7 +38,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse requests of content-type - application/json
 app.use(cors());
 
-// app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false,
+    }));
 app.use(limiter);
 app.use (expressSanitizer());
 

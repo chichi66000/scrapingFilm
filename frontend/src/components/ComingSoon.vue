@@ -9,14 +9,12 @@
         
       <select @click="showdate()" v-model="selectDate" class="select_date" name="selectDate">
           <option disabled value="default">{{year}} - {{month}}</option>
-          <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`${date}`" :selected="`index==0`" >{{date}}</option>
+          <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`${date}`" >{{date}}</option>
          
       </select> 
 
       <button @click="next()" class="font-bold">Next</button>
       </div>
-
-
 
     </div>
 
@@ -56,7 +54,7 @@
 
 <script>
 import axios from '../axios'
-import moment  from "moment"
+import moment, {months}  from "moment"
 // import store from '../store/index'
 export default {
   name: 'ComingSoon',
@@ -83,13 +81,15 @@ export default {
     // show the month from now to next year => OK
     showdate() {
       // take the value of this month and this year 
-      var aujd = new Date();
-      this.year = aujd.getFullYear();
-
-      this.month = aujd.getMonth() + 1;
-      console.log(this.month);
-      this.nextyear = moment().add(12, 'months').calendar();
+      var aujd = moment();
+      console.log("auj " + aujd);
+      this.year = moment().year();
+      console.log("year " + this.year);
+      this.month = months(aujd, "MM");
+      console.log("month " + this.month );
       
+      this.nextyear = moment().add(12, 'months').calendar();
+      console.log("next year " + this.nextyear);
       // the function to calculate 12 months from 1 date in using momentjs
       function getDates(startDate, stopDate) {
         let dateOption = []
@@ -109,14 +109,15 @@ export default {
     // get the value of the month selected
     async chooseDate (index) {
       this.dateChoosen = this.dateArray[index];
-
+      console.log("month " + this.dateArray[index])
       // send to the server to get list of movies
       await axios.get(`/films/${this.dateChoosen}`)
       .then( (response) => {
         // stock in list of movies
         this.movies = response.data.movies;
-        // change the state of vuex
+        // change the state of vuex with the month
         this.$store.dispatch('chooseMonth', this.dateChoosen)
+        
       })
     },
 
