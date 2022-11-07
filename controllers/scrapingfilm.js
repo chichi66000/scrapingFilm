@@ -12,7 +12,8 @@ exports.scrapingfilm = async (req, res) => {
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     const page = await browser.newPage();
-    await page.goto(`https://www.imdb.com/movies-coming-soon/${date}`);
+    // await page.goto(`https://www.imdb.com/movies-coming-soon/${date}`);
+    await page.goto(`https://www.cinefil.com/sorties-cinema-du-mois/mois-${date}`)
     const movies = await page.evaluate( () => {
         let movies = [];
         // select the elements in the list of movies in this website => we will choose the class, span ... follow in this site
