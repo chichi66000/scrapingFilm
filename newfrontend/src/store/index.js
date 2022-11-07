@@ -25,7 +25,9 @@
 import {createStore} from 'vuex'
 
 const store = createStore({
-
+    state: {
+        month: new Date().toISOString().substring(0, 10)
+    }
 })
 
 export default store

@@ -7,7 +7,7 @@
       <div class="flex flex-row px-1 sm:px-3 flex-wrap ">
       <button @click="prev()" class="font-bold" role="button">Prev</button>
         
-      <select @click="showdate()" v-model="selectDate" class="select_date" name="selectDate">
+      <select @click="showDate()" v-model="selectDate" class="select_date" name="selectDate">
           <option disabled value="default">{{year}} - {{month}}</option>
           <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`${date}`" >{{date}}</option>
          
@@ -52,123 +52,70 @@
   </div>
 </template>
 
-// <script>
-// import axios from '../axios'
-// import moment, {months}  from "moment"
-// // import store from '../store/index'
-// export default {
-//   name: 'ComingSoon',
-//   data () {
-//     return {
-//       month: '',
-//       year:'',
-//       nextyear: '',
-//       dateArray: [],
-//       movies: [],
-//       dateChoosen: '',
-//       selectDate: 'default',
-//     }
+<script>
+// import axios from '../axios';
+import date from 'date-and-time';
+
+export default {
+  name: 'ComingSoon',
+  data () {
+    return {
+      month: '',
+      year:'',
+      next_year: '',
+      dateArray: [],
+      movies: [],
+      dateChoosen: '',
+      selectDate: 'default',
+    }
     
-//   },
+  },
 
-//   created(){
-//     this.showdate();
-//     this.chooseDate (0);
-    
-//   },
+  created () {
+    this.showDate();
+    this.getAllMonthsOfYear();
+  },
 
-//   methods: {
-//     // show the month from now to next year => OK
-//     showdate() {
-//       // take the value of this month and this year 
-//       var aujd = moment();
-//       console.log("auj " + aujd);
-//       this.year = moment().year();
-//       console.log("year " + this.year);
-//       this.month = months(aujd, "MM");
-//       console.log("month " + this.month );
-      
-//       this.nextyear = moment().add(12, 'months').calendar();
-//       console.log("next year " + this.nextyear);
-//       // the function to calculate 12 months from 1 date in using momentjs
-//       function getDates(startDate, stopDate) {
-//         let dateOption = []
-//         var currentDate = moment(startDate);
-//         var endDate = moment(stopDate);
-//         while (currentDate <= endDate) {
-//             dateOption.push( moment(currentDate).format('YYYY-MM') )
-//             currentDate = moment(currentDate).add(1, 'months');
-//         }
-//         return dateOption;
-//       }
-//       // call this function to get the months from now to next year and stock in dateArray
-//       this.dateArray = getDates(aujd, this.nextyear);
-      
-//     },
+  methods: {
+    // show the month from now to next year => OK
+    showDate() {
+      const now = new Date();
+      this.month = date.format(now, 'MM');
+      this.year = date.format(now, 'YYYY');
+      let nextyear = date.addYears(now, 1);
+      this.next_year = date.format(nextyear, 'YYYY')
+      // console.log("this month is now " +this.month);
+      // console.log("this year is now " +this.year);
+      // console.log("this next_year is now " +this.next_year);
 
-//     // get the value of the month selected
-//     async chooseDate (index) {
-//       this.dateChoosen = this.dateArray[index];
-//       console.log("month " + this.dateArray[index])
-//       // send to the server to get list of movies
-//       await axios.get(`/films/${this.dateChoosen}`)
-//       .then( (response) => {
-//         // stock in list of movies
-//         this.movies = response.data.movies;
-//         // change the state of vuex with the month
-//         this.$store.dispatch('chooseMonth', this.dateChoosen)
-        
-//       })
-//     },
+    },
 
-//     // button back to the prev month
-//     prev () {
-//       // get the month from the dateChoosen-1
-//       let prevMonth = moment(this.dateChoosen).subtract(1, "months").format("YYYY-MM");
-//       console.log("prev " + prevMonth);
-//       // get the index of this month in the dateArray
-//       let index = this.dateArray.indexOf(prevMonth);
-      
-//       // if index <0 => the films has all coming out already => alert + the film coming in this month
-//       if(index < 0) {
-//         alert("Please choose a valid month for Film Coming Soon");
-        
-//       }
-//       // if we've been farther in the futur, we can come back to prev month
-//       else {
-//         // then call the function chooseDate to get the list of movies
-//         this.chooseDate(index);
-//         // and show the value of the month choosen
-//         this.selectDate = this.dateArray[index];
-//         // change the store of vuex
-//         this.$store.dispatch('chooseMonth', this.selectDate)
+    // the function to calculate 12 months from 1 date in using momentjs
+    getAllMonthsOfYear () {
+      const now = new Date();
+      this.month = date.format(now, 'MM');
+      for (let i = 0; i < 12; i++) {
+        let months = date.addMonths(now, 1 + i);
+        let monthFormat = date.format(months, 'YYYY-MM');
+        this.dateArray.push(monthFormat);
+        console.log(this.dateArray);
+      }
+    },
 
-//       }
-//     },
+    // get the value of the month selected
+    async chooseDate () {},
 
-//     // go to the next month => similar to the prev() function
-//     next () {
-//       let nextMonth = moment(this.dateChoosen).add(1, "months").format("YYYY-MM");
-//       let index = this.dateArray.indexOf(nextMonth);
-      
-//       // if the month more than  year => too far to get the film
-//       if (index < 0) {
-//         alert("Please choose another month; there's no film yet");
-        
-//       }
-//       else {
-//         this.chooseDate(index)
-//         // and show the value of the month choosen
-//         this.selectDate = this.dateArray[index];
-//         // change the store of vuex
-//         this.$store.dispatch('chooseMonth', this.selectDate)
-//       }
-      
-//     }
-//   },
+    // button back to the prev month
+    prev () {},
+
+    // go to the next month => similar to the prev() function
+    next () {},
+
+
+  }
   
-// }
-// </script>
+}
+</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="css">

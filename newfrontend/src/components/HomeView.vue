@@ -6,25 +6,25 @@
       
     </h1>
 
-    <!-- <ComingSoon /> -->
+    <ComingSoon />
   </div>
   
 </template>
 
 <script>
 // @ is an alias to /src
-// import ComingSoon from '../components/ComingSoon.vue'
-// import { mapState } from 'vuex'
+import ComingSoon from '../components/ComingSoon.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'HomeView',
-  // components: {
-  //   ComingSoon
-  // },
-  // computed: {
-  //     ...mapState ( {
-  //       month: state => state.month
-  //     } )
-  //   }
+  components: {
+    ComingSoon
+  },
+  computed: {
+      ...mapState ( {
+        month: state => state.month
+      } )
+    }
 }
 </script>
