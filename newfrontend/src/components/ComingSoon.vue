@@ -53,7 +53,7 @@
 </template>
 
 <script>
-// import axios from '../axios';
+import axios from '../axios';
 import date from 'date-and-time';
 
 export default {
@@ -73,7 +73,7 @@ export default {
 
   created () {
     this.showDate();
-    this.getAllMonthsOfYear();
+
   },
 
   methods: {
@@ -87,23 +87,28 @@ export default {
       // console.log("this month is now " +this.month);
       // console.log("this year is now " +this.year);
       // console.log("this next_year is now " +this.next_year);
-
-    },
-
-    // the function to calculate 12 months from 1 date in using momentjs
-    getAllMonthsOfYear () {
-      const now = new Date();
-      this.month = date.format(now, 'MM');
       for (let i = 0; i < 12; i++) {
         let months = date.addMonths(now, 1 + i);
         let monthFormat = date.format(months, 'YYYY-MM');
         this.dateArray.push(monthFormat);
-        console.log(this.dateArray);
       }
     },
 
     // get the value of the month selected
-    async chooseDate () {},
+    async chooseDate (index) {
+       this.dateChoosen = this.dateArray[index];
+      //  console.log(this.dateChoosen);
+      await axios.get(`/films/${this.dateChoosen}`)
+      .then((response) => {
+        // stock in list of movies
+        this.movies = response.data.movies;
+        console.log(this.movies);
+        // change the state of vuex with the month
+        // this.$store.dispatch('chooseMonth', this.dateChoosen)
+        
+      })
+      .catch(error => {console.log(error);})
+    },
 
     // button back to the prev month
     prev () {},

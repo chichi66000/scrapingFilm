@@ -14,17 +14,17 @@
 <script>
 // @ is an alias to /src
 import ComingSoon from '../components/ComingSoon.vue'
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 
 export default {
   name: 'HomeView',
   components: {
     ComingSoon
   },
-  computed: {
-      ...mapState ( {
-        month: state => state.month
-      } )
-    }
+  // computed: {
+  //     ...mapState ( {
+  //       month: state => state.month
+  //     } )
+  //   }
 }
 </script>

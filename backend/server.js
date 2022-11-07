@@ -61,7 +61,7 @@ const app = require('./app');
 const server = http.createServer(app);
 let port = process.env.PORT;
   if (port == null || port == "") {
-    port = 3001;
+    port = 3000;
   }
   server.on('listening', () => {
         const address = server.address();
