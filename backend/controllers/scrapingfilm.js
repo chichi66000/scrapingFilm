@@ -79,22 +79,54 @@ exports.scrapingfilm = async(req, res, next) => {
         let films = $(".style_1")
         // console.log(films)
         films.each(function () {
-            
             let title = $(this).find(".content h2 a").text()
             let affiche = $(this).find(".image img").attr('src');
-            let dateSortie = $(this).find(".content p").text()
-            console.log('dateSortie ', dateSortie);
-            list.push({title, affiche})
+            let dateSortie = $(this).find(".content p").text();
+            let filmId = $(this).find(".options").attr('data-id');
+            let score = $(this).find(".content .user_score_chart").attr('data-percent');
+
+            console.log('score ', score);
+            list.push({filmId, title, affiche, dateSortie, score});
         })
-        //  console.log(list);
+        res.status(200).send(list)
         
     }
     catch (err) {
         console.error(err);
     }
-    // let films = $(".nouvel-interface2")
-    // films.each(function () {
-    //     title = $this.find("h3 a").text()
-    //     console.log(title);
-    // })
+}
+
+exports.filmsSelect = async(req, res, next) => {
+    let date = req.params.dateChoosen
+    let url = `https://www.themoviedb.org/movie/upcoming`;
+    // console.log(date);
+    try {
+        let response = await axios.post(url,
+            // {
+            // 'release_date.gte': date + '-01',
+            // 'release_date.lte': date + '-31'
+            // }
+            
+        )
+        // console.log(response.data);
+ 
+        const $ = cheerio.load(response.data)
+        let films = $(".style_1")
+        // console.log(films)
+        films.each(function () {
+            let title = $(this).find(".content h2 a").text()
+            let affiche = $(this).find(".image img").attr('src');
+            let dateSortie = $(this).find(".content p").text();
+            let filmId = $(this).find(".options").attr('data-id');
+            let score = $(this).find(".content .user_score_chart").attr('data-percent');
+
+            // console.log('score ', score);
+            list.push({filmId, title, affiche, dateSortie, score});
+        })
+        console.log(list);
+        
+    }
+    catch (err) {
+        console.error(err);
+    }
 }

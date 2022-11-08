@@ -23,11 +23,36 @@
 
 
 import {createStore} from 'vuex'
+import axios from '../axios'
 
-const store = createStore({
+export default createStore({
     state: {
-        month: new Date().toISOString().substring(0, 10)
+        // month: new Date().toISOString().substring(0, 10),
+        movies: [],
+        
+    },
+    
+    mutations: {
+        getMovies (state, films) {
+            state.movies = films
+        }
+    },
+    actions: {
+        // getMovies (context, films) {
+        //     context.commit('getMovies', films)
+        // }
+        getMovies (context) {
+            axios.get(`/films`)
+            .then((response) => {
+                // console.log(response.data);
+                // stock in list of movies
+                // this.movies = response.data;
+                // // console.log(this.movies);
+                // this.$store.dispatch('getMovies', response.data);
+                context.commit('getMovies', response.data)
+            })
+            .catch(error=> {console.log(error);})
+        }
     }
 })
 
-export default store
