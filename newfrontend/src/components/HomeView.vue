@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <h1 class="font-bold text-3xl text-red-300 mx-auto my-5 text-center">New Movies
-      <span>Coming Soon in </span>
+    <h1 class="font-bold text-3xl text-red-300 mx-auto my-5 text-center">
+      Films à venir
       <!-- <span class="text-red-400">{{month}}</span> -->
       
     </h1>

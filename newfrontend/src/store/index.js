@@ -44,12 +44,15 @@ export default createStore({
         getMovies (context) {
             axios.get(`/films`)
             .then((response) => {
-                // console.log(response.data);
-                // stock in list of movies
-                // this.movies = response.data;
-                // // console.log(this.movies);
-                // this.$store.dispatch('getMovies', response.data);
-                context.commit('getMovies', response.data)
+                let array = [];
+                let films = response.data;
+                for (let i = 0; i < films.length; i++) {
+                    if(films[i].title !== '') {
+                        array.push(films[i])
+                    }
+                }
+                // console.log(array);
+                context.commit('getMovies', array)
             })
             .catch(error=> {console.log(error);})
         }

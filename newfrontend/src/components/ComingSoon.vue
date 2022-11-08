@@ -1,26 +1,15 @@
 <template>
-  <div class="movies container mx-auto">
-    <!-- change the month and years -->
-    <!-- <div class="flex flex-col mx-auto sm:items-end py-5 px-1 sm:px-5 bg-gray-400 mx-auto">
-      <label for="select_date" class="px-1 sm:px-3 font-bold">Select date</label>
-
-      <div class="flex flex-row px-1 sm:px-3 flex-wrap ">
-      <button @click="prev()" class="font-bold" role="button">Prev</button>
-        
-      <select @click="showDate()" v-model="selectDate" class="select_date" name="selectDate">
-          <option disabled value="default">{{year}} - {{month}}</option>
-          <option @click="chooseDate(index)" v-for="(date, index) in dateArray" :key="date" :value="`${date}`" >{{date}}</option>
-         
-      </select> 
-
-      <button @click="next()" class="font-bold">Next</button>
-      </div>
-
-    </div> -->
+  <div class="movies container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-fit">
 
     <!-- bloc for the movies -->
-    <div v-for="(movie, index) in movies" :key="index" class="">
-      <h2>{{movie.title}}</h2>
+    <div v-for="movie in movies" :key="movie.filmId" class="border rounded mx-2 ">
+      <div class="h-6/12 p-1 mx-auto my-auto ">
+        <img :src="`https://www.themoviedb.org/${movie.affiche}`" alt="affiche film" class="mx-auto my-auto">
+      </div>
+      <div class="my-1 text-center h-3/12">
+        <h2 class="p-1 text-center font-bold text-lg ">{{movie.title}}</h2>
+        <p>Date sortie: {{movie.dateSortie}}</p>
+      </div>
     </div>
     
     
