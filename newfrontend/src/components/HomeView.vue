@@ -5,7 +5,6 @@
       <!-- <span class="text-red-400">{{month}}</span> -->
       
     </h1>
-
     <Upcoming />
   </div>
   

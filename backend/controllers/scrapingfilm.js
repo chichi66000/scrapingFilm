@@ -84,8 +84,6 @@ exports.scrapingfilm = async(req, res, next) => {
             let dateSortie = $(this).find(".content p").text();
             let filmId = $(this).find(".options").attr('data-id');
             let score = $(this).find(".content .user_score_chart").attr('data-percent');
-
-            console.log('score ', score);
             list.push({filmId, title, affiche, dateSortie, score});
         })
         res.status(200).send(list)
@@ -96,35 +94,30 @@ exports.scrapingfilm = async(req, res, next) => {
     }
 }
 
-exports.filmsSelect = async(req, res, next) => {
+exports.upcoming = async(req, res, next) => {
     let date = req.params.dateChoosen
-    let url = `https://www.themoviedb.org/movie/upcoming`;
-    // console.log(date);
+    // upcoming films
+    // let url = `https://api.themoviedb.org/3/movie/upcoming?api_key=c4fa70d8a01efadf74c35df873ee66b1&language=fr&release_dates=2022-11`;
+    let url = `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.API_KEY}&language=fr-FR`;
+    // console.log(url);
     try {
-        let response = await axios.post(url,
-            // {
-            // 'release_date.gte': date + '-01',
-            // 'release_date.lte': date + '-31'
-            // }
-            
-        )
-        // console.log(response.data);
- 
-        const $ = cheerio.load(response.data)
-        let films = $(".style_1")
-        // console.log(films)
-        films.each(function () {
-            let title = $(this).find(".content h2 a").text()
-            let affiche = $(this).find(".image img").attr('src');
-            let dateSortie = $(this).find(".content p").text();
-            let filmId = $(this).find(".options").attr('data-id');
-            let score = $(this).find(".content .user_score_chart").attr('data-percent');
-
-            // console.log('score ', score);
-            list.push({filmId, title, affiche, dateSortie, score});
-        })
-        console.log(list);
+        let response = await axios.get(url)
+        let films = response.data.results;
+        // res.send(films);
+        let results = []
         
+        for (let i = 0; i<films.length; i++) {
+            id = films[i].id;
+            title = films[i].title;
+            overview = films[i].overview;
+            release_date= films[i].release_date;
+            vote_average= films[i].vote_average;
+            poster= films[i].poster_path;
+            adult = films[i].adult;
+            results.push({id, title, overview, poster, release_date, vote_average, adult})
+        }
+            res.send(results);
+  
     }
     catch (err) {
         console.error(err);
