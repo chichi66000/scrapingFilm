@@ -1,26 +1,3 @@
-// import Vue from 'vue'
-// import Vuex from 'vuex'
-
-// Vue.use(Vuex)
-
-// export default new Vuex.Store({
-//   state: {
-//     month: new Date().toISOString().substr(0, 19).replace('T', ' '),
-//   },
-//   mutations: {
-//     chooseMonth(state, newDate) {
-//       state.month = newDate
-//     },
-//   },
-//   actions: {
-//     chooseMonth(context, newDate) {
-//       context.commit('chooseMonth', newDate)
-//     }
-//   },
-//   modules: {
-//   }
-// })
-
 
 import {createStore} from 'vuex'
 import axios from '../axios'
@@ -42,7 +19,7 @@ export default createStore({
         //     context.commit('getMovies', films)
         // }
         getMovies (context) {
-            axios.get(`/films`)
+            axios.get(`/films/upcoming`)
             .then((response) => {
                 let array = [];
                 let films = response.data;
@@ -51,7 +28,6 @@ export default createStore({
                         array.push(films[i])
                     }
                 }
-                // console.log(array);
                 context.commit('getMovies', array)
             })
             .catch(error=> {console.log(error);})
