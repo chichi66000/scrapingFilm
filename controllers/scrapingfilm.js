@@ -61,11 +61,10 @@
 // }
 
 // const cheerio = require('cheerio')
-const axios = require('axios')
 
 // exports.scrapingfilm = async(req, res, next) => {
-//     let date = req.params.dateChoosen
-//     // console.log(date);
+    //     let date = req.params.dateChoosen
+    //     // console.log(date);
 //     let url = `https://www.themoviedb.org/movie/upcoming`;
 //     let list = [];
 //     // console.log(url);
@@ -95,6 +94,7 @@ const axios = require('axios')
 // }
 
 const date = require('date-and-time');
+const axios = require('axios')
 
 exports.upcoming = async(req, res, next) => {
     let page = req.params.page?? "page=1"
@@ -103,11 +103,10 @@ exports.upcoming = async(req, res, next) => {
     let nextMonth = date.addMonths(now, 1);
     let release_date_droite = date.format(nextMonth, 'YYYY-MM-DD')
 
-    console.log(release_date_gauche, release_date_droite);
+    // console.log(release_date_gauche, release_date_droite);
     // upcoming films
     
     let url = `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.API_KEY}&language=fr&region=FR&release_date.gte=${release_date_gauche}&release_date.lte=${release_date_droite}&${page}`;
-    console.log(url);
 
     try {
         let response = await axios.get(url)
@@ -134,7 +133,14 @@ exports.upcoming = async(req, res, next) => {
 }
 
 exports.nowplaying = async(req, res) => {
-    let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.API_KEY}&language=fr-FR`;
+    let page = req.params.page?? "page=1";
+    let now = new Date();
+    let release_date_droite = date.format(now, 'YYYY-MM-DD');
+    let prevMonth = date.addMonths(now, -1);
+    let release_date_gauche = date.format(prevMonth, 'YYYY-MM-DD');
+    console.log(release_date_gauche, release_date_droite);
+
+    let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.API_KEY}&language=fr&region=FR&${page}&release_date.gte=${release_date_gauche}&release_date.lte=${release_date_droite}`;
     try {
         let response = await axios.get(url)
         let films = response.data.results;
@@ -161,8 +167,8 @@ exports.nowplaying = async(req, res) => {
 
 exports.toprated = async(req, res) => {
     let page = req.params.page?? "page=1"
-    let url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.API_KEY}&language=fr-FR&${page}`;
-    console.log("url: " + url);
+    let url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.API_KEY}&language=fr&${page}`;
+    // console.log("url: " + url);
 
     try {
         let response = await axios.get(url)
