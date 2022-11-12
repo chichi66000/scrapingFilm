@@ -15,15 +15,10 @@ export default createStore({
         }
     },
     actions: {
-        // getMovies (context, films) {
-        //     context.commit('getMovies', films)
-        // }
-        
-
-        getMovies (context) {
-            axios.get(`/films/upcoming/page=1`)
+        getMovies (context, page) {
+            axios.get(`/films/upcoming/page=${page}`)
             .then((response) => {
-                
+                console.log(response);
                 let array = [];
                 let films = response.data;
                 for (let i = 0; i < films.length; i++) {
