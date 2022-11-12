@@ -106,7 +106,7 @@ exports.upcoming = async(req, res, next) => {
     console.log(release_date_gauche, release_date_droite);
     // upcoming films
     
-    let url = `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.API_KEY}&region=FR&release_date.gte=${release_date_gauche}&release_date.lte=${release_date_droite}&${page}`;
+    let url = `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.API_KEY}&language=fr&region=FR&release_date.gte=${release_date_gauche}&release_date.lte=${release_date_droite}&${page}`;
     console.log(url);
 
     try {

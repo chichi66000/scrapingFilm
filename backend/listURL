@@ -1,0 +1,19 @@
+What movies are in theatres?
+URL: /discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22
+
+What is are the best movies from 2010?
+URL: /discover/movie?primary_release_year=2010&sort_by=vote_average.desc
+https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=fr-FR&region=FR&release_date.gte=2022-12-01&release_date.lte=2022-12-31
+https://api.themoviedb.org/3/discover/movie?api_key=<<api_key>>&language=de-DE&region=DE&release_date.gte=2016-11-16&release_date.lte=2016-12-02&with_release_type=2|3
+
+What are the most popular movies?
+URL: /discover/movie?sort_by=popularity.desc
+
+list of upcoming movies in theatres.
+https://api.themoviedb.org/3/movie/upcoming?api_key=c4fa70d8a01efadf74c35df873ee66b1&language=fr&page=1&region=FR
+
+Top rated movies
+https://api.themoviedb.org/3/movie/top_rated?api_key=c4fa70d8a01efadf74c35df873ee66b1&language=en-US&page=1
+
+now_playing
+https://api.themoviedb.org/3/movie/now_playing?api_key=c4fa70d8a01efadf74c35df873ee66b1&language=en-US&page=1
