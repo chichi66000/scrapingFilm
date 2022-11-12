@@ -46,7 +46,9 @@ export default {
   created () {
     // get films from server & store in vuex
     this.$store.dispatch('getMovies', 1)
-    
+    var currentUrl = window.location.pathname;
+
+    console.log(currentUrl);
   },
 
   // mounted () {
