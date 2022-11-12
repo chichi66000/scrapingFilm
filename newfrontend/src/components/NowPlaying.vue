@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Now playing</h1>
+        <h1 class="text-4xl text-red-900 text-center mx-auto">Films du moment</h1>
         <DisplayFilm/>
 
     </div>

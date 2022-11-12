@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Top Rated</h1>
+        <h1 class="text-4xl text-red-900 text-center mx-auto">Films - Les mieux notés</h1>
         <DisplayFilm/>
 
     </div>

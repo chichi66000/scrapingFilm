@@ -1,29 +1,21 @@
 <template>
   <div class="home">
-    <h1 class="font-bold text-3xl text-red-300 mx-auto my-5 text-center">
-      Films à venir
-      <!-- <span class="text-red-400">{{month}}</span> -->
-      
-    </h1>
-    <Upcoming />
+    <h1 class="text-4xl text-red-900 text-center mx-auto">Films à venir</h1>
+    
+    <DisplayFilm />
   </div>
   
 </template>
 
 <script>
 // @ is an alias to /src
-import Upcoming from './Upcoming.vue'
+import DisplayFilm from './DisplayFilm.vue'
 // import { mapState } from 'vuex'
 
 export default {
   name: 'HomeView',
   components: {
-    Upcoming
+    DisplayFilm
   },
-  // computed: {
-  //     ...mapState ( {
-  //       month: state => state.month
-  //     } )
-  //   }
 }
 </script>

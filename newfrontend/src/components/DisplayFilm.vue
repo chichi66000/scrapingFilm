@@ -45,7 +45,13 @@ export default {
     },
     created () {
         var url = window.location.pathname;
-        this.obj.url = url 
+        console.log(url);
+        if (url == "/") {
+            this.obj.url = "/upcoming"
+        }
+        else {
+            this.obj.url = url 
+        }
         console.log(this.obj);
         this.$store.dispatch('getMovies', this.obj)
     },
