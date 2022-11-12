@@ -15,8 +15,9 @@ export default createStore({
         }
     },
     actions: {
-        getMovies (context, page) {
-            axios.get(`/films/upcoming/page=${page}`)
+        getMovies (context, obj) {
+            
+            axios.get(`/films${obj.url}/page=${obj.page}`)
             .then((response) => {
                 let array = [];
                 let films = response.data;

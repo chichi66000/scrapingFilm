@@ -1,5 +1,7 @@
 <template>
-  <div class="mx-auto">
+
+  <DisplayFilm/>
+  <!-- <div class="mx-auto">
       
     <div v-for="movie in movies" :key="movie.filmId" class="flex flex-col justify-evenly sm:flex-row border rounded-lg my-5 p-1 mx-2 p-2 sm:p-5  ">
       <div class="w-50 sm:w-72 p-1 mx-auto sm:mx-3">
@@ -17,93 +19,95 @@
 
       </div>
 
-    </div>
+    </div> -->
 
     <!-- Button prev & next -->
-    <div class="flex flex-row justify-between">
+    <!-- <div class="flex flex-row justify-between">
       <button v-if="(movies.length > 0 && this.page > 1)" @click="prevPage()" class="font-bold bg-green-700 my-2 p-2 text-center text-white rounded-lg hover:bg-green-200 hover:text-black mx-2 ">Previous page</button>
       <button v-if="movies.length > 0" @click="nextPage()" class="font-bold bg-green-700 my-2 p-2 text-center text-white rounded-lg hover:bg-green-200 hover:text-black mx-2">Next page</button>
       <button v-else @click="prevPage()" class="font-bold bg-green-700 my-2 p-2 text-center text-white rounded-lg hover:bg-green-200 hover:text-black mx-2 ">Previous Page</button>
 
     </div>
     <div>Page: {{this.page}}</div>
-  </div>
+  </div> -->
   
 </template>
 
 <script>
 // import axios from '../axios';
 // import date from 'date-and-time';
+import DisplayFilm from './DisplayFilm.vue';
 
 export default {
   name: 'ComingSoon',
-  data () {
-    return {
-      page: 1,
-    }
-  },
+  components: {DisplayFilm,} ,
+  // data () {
+  //   return {
+  //     page: 1,
+  //   }
+  // },
 
-  created () {
-    // get films from server & store in vuex
-    this.$store.dispatch('getMovies', 1)
-    var currentUrl = window.location.pathname;
+  // created () {
+  //   // get films from server & store in vuex
+  //   this.$store.dispatch('getMovies', 1)
+  //   var currentUrl = window.location.pathname;
 
-    console.log(currentUrl);
-  },
+  //   console.log(currentUrl);
+  // },
 
   // mounted () {
   //   this.truncateOverview()
   // },
 
-  computed: {
-    films() {
-      return this.$store.state.movies;
-    },
+  // computed: {
+  //   // films() {
+  //   //   return this.$store.state.movies;
+  //   // },
 
-    // get all films from store
-    movies () {
-      return this.$store.state.movies
-      // let m = this.$store.state.movies;
-      // let array = [];
-      // m.map(function (item) {
-      //   if( item.overview.length > 120) {
-      //     item.overview = item.overview.substring(0, 120) + '...';
-      //   }
-      //   else {return }
-      //   array.push(item)
-      //   return array
-      // })
-      // console.log(array);
-      // return array
+  //   // get all films from store
+  //   movies () {
+  //     return this.$store.state.movies
+  //     // let m = this.$store.state.movies;
+  //     // let array = [];
+  //     // m.map(function (item) {
+  //     //   if( item.overview.length > 120) {
+  //     //     item.overview = item.overview.substring(0, 120) + '...';
+  //     //   }
+  //     //   else {return }
+  //     //   array.push(item)
+  //     //   return array
+  //     // })
+  //     // console.log(array);
+  //     // return array
       
-    }
+  //   }
 
-  },
+  // },
 
-  methods: {
-    nextPage() {
-      this.page += 1;
-      console.log(this.page); 
-      this.$store.dispatch('getMovies', this.page)
-    },
+  // methods: {
+  //   nextPage() {
+  //     this.page += 1;
+  //     console.log(this.page); 
+  //     this.$store.dispatch('getMovies', this.page)
+  //   },
 
-    prevPage () {
-      if (this.page > 1) {
-        this.page -= 1;
-      }
-      else {
-        this.page = 1
-      }
-      console.log(this.page); 
-      this.$store.dispatch('getMovies', this.page)
+  //   prevPage () {
+  //     if (this.page > 1) {
+  //       this.page -= 1;
+  //     }
+  //     else {
+  //       this.page = 1
+  //     }
+  //     console.log(this.page); 
+  //     this.$store.dispatch('getMovies', this.page)
 
-    },
+  //   },
 
-    allText (id) {
-      console.log(id);
-      console.log(this.films);
-    }
-  },
+  //   allText (id) {
+  //     console.log(id);
+  //     console.log(this.films);
+  //   }
+  // },
 
   
 }

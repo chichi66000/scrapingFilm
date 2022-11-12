@@ -12,12 +12,12 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/top_rated',
+    path: '/toprated',
     name: 'TopRated',
     component: TopRated
   },
   {
-    path: '/now_playing',
+    path: '/nowplaying',
     name: 'NowPlaying',
     component: NowPlaying
   },
