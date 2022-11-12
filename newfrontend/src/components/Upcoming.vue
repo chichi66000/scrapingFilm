@@ -38,10 +38,13 @@
       </div> -->
       
     </div>
-    <div class="text-center ">
-      <button @click="nextPage()" class="font-bold bg-green-700 my-2 p-2 text-center text-white rounded-lg hover:bg-green-200 hover:text-black">Afficher plus</button>
+    <div class="flex flex-row justify-between">
+      <button v-if="(movies.length > 0 && this.page > 1)" @click="prevPage()" class="font-bold bg-green-700 my-2 p-2 text-center text-white rounded-lg hover:bg-green-200 hover:text-black mx-2 ">Previous page</button>
+      <button v-if="movies.length > 0" @click="nextPage()" class="font-bold bg-green-700 my-2 p-2 text-center text-white rounded-lg hover:bg-green-200 hover:text-black mx-2">Next page</button>
+      <button v-else @click="prevPage()" class="font-bold bg-green-700 my-2 p-2 text-center text-white rounded-lg hover:bg-green-200 hover:text-black mx-2 ">Previous Page</button>
 
     </div>
+    <div>Page: {{this.page}}</div>
   </div>
   
 </template>
@@ -91,8 +94,20 @@ export default {
   methods: {
     nextPage() {
       this.page += 1;
-      // console.log(this.page); 
+      console.log(this.page); 
       this.$store.dispatch('getMovies', this.page)
+    },
+
+    prevPage () {
+      if (this.page > 1) {
+        this.page -= 1;
+      }
+      else {
+        this.page = 1
+      }
+      console.log(this.page); 
+      this.$store.dispatch('getMovies', this.page)
+
     }
   },
 
