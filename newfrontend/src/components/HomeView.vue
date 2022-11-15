@@ -10,7 +10,6 @@
 <script>
 // @ is an alias to /src
 import DisplayFilm from './DisplayFilm.vue'
-// import { mapState } from 'vuex'
 
 export default {
   name: 'HomeView',

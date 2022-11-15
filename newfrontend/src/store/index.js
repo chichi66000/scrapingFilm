@@ -4,9 +4,7 @@ import axios from '../axios'
 
 export default createStore({
     state: {
-        // month: new Date().toISOString().substring(0, 10),
         movies: [],
-        
     },
     
     mutations: {
@@ -22,10 +20,8 @@ export default createStore({
                 let array = [];
                 let films = response.data;
                 for (let i = 0; i < films.length; i++) {
-                    // trruncate text overviews
-                     
+                    // delete the films without title
                     if(films[i].title !== '') {
-                        // films[i].overviews = truncateString(films[i].overviews, 200)
                         array.push(films[i])
                     }
                 }

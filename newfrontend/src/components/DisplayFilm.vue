@@ -45,14 +45,12 @@ export default {
     },
     created () {
         var url = window.location.pathname;
-        console.log(url);
         if (url == "/") {
             this.obj.url = "/upcoming"
         }
         else {
             this.obj.url = url 
         }
-        console.log(this.obj);
         this.$store.dispatch('getMovies', this.obj)
     },
 
@@ -65,7 +63,6 @@ export default {
     methods: {
         nextPage() {
             this.obj.page += 1;
-            console.log(this.obj.page, "nextPage");
             this.$store.dispatch('getMovies', this.obj)
         },
 
@@ -76,9 +73,7 @@ export default {
         else {
             this.obj.page = 1
         }
-        console.log(this.obj.page); 
         this.$store.dispatch('getMovies', this.obj)
-
         },
     }
 

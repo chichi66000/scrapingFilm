@@ -26,7 +26,6 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTION');
     res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader("Content-Security-Policy", "default-src 'none' ;img-src m.media-amazon.com imdb.com 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' ; style-src 'self' 'unsafe-eval'; connect-src 'self' m.media-amazon.com imdb.com ");
     next();
 })
 
@@ -37,29 +36,28 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // parse requests of content-type - application/json
 app.use(cors());
-
-app.use(helmet({
-    contentSecurityPolicy: false,
-    }));
 app.use(limiter);
 app.use (expressSanitizer());
+app.use(helmet.contentSecurityPolicy({
+  useDefaults: true,
+  directives: {
+    "default-src": ["'self'", "https://image.tmdb.org", "https://www.themoviedb.org", "https://scrapingfilm-production.up.railway.app"],
+    "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+    "style-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'",],
+    "img-src": ["'self'", "https://image.tmdb.org",]
+  },
+}));
 
   // imports les routes 
   const scrapingRoute = require('./routes/scrapingfilm')
 
   app.use('/api/films', scrapingRoute)
-  app.use(express.static(__dirname + '/public'))
+
+
+  app.use(express.static(__dirname + '/dist'))
 
   // handle VueJS
-  app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/public/index.html')));
-// handle for production
-// if (process.env.NODE_ENV === "production") {
-//   // static folder
-//   app.use(express.static(__dirname + './public'))
-
-//   // handle VueJS
-//   app.get('*', (req, res) => res.sendFile(path.join(__dirname + './public/index.html')));
-// }
+  app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/dist', 'index.html')));
 
 
 module.exports = app;
