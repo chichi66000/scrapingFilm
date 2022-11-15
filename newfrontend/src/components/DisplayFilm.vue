@@ -1,7 +1,7 @@
 <template>
     <div class="mx-auto">
       
-    <div v-for="movie in movies" :key="movie.filmId" class="flex flex-col justify-evenly sm:flex-row border rounded-lg my-5 p-1 mx-2 p-2 sm:p-5  ">
+    <div v-for="movie in movies" :key="movie.filmId" class="flex flex-col justify-evenly sm:flex-row border border-orange-400 rounded-lg my-5 p-1 mx-2 p-2 sm:p-5 shadow-lg ">
       <div class="w-50 sm:w-72 p-1 mx-auto sm:mx-3">
         <img :src="`https://image.tmdb.org/t/p/w500${movie.poster}`" class=" mx-auto object-contain"/>
       </div>
@@ -9,8 +9,8 @@
       <div class="flex flex-col p-1 sm:p-5 mx-auto flex-wrap w-full sm:w-3/4 md:1/2">
         <h2 class="font-bold text-lg text-red-400 mx-auto px-1 sm: px-5" >{{movie.title}}</h2>
 
-        <div class="flex justify-between flex-wrap">
-          {{movie.release_date}}
+        <div class="flex justify-between flex-wrap font-bold ">
+          Sortie: {{movie.release_date}}
         </div>
         
         <p class="px-1 mx-auto">{{movie.overview}}</p>
